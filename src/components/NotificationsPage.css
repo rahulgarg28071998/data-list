@@ -1,0 +1,35 @@
+/* NotificationsPage.css */
+.notifications-page {
+    padding: 20px;
+    background-color: #ffffff; /* Main content background */
+    margin-top: 20px; /* Space below the header */
+}
+
+.notifications-page h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px; /* Space below title */
+}
+
+.notification-list {
+    max-width: 600px; /* Limit the width of the notification list */
+}
+
+.notification-item {
+    border: 1px solid #ddd; /* Border around each notification */
+    border-radius: 5px; /* Rounded corners */
+    padding: 15px; /* Padding inside the notification */
+    margin-bottom: 15px; /* Space below each notification */
+    background-color: #f9f9f9; /* Light background color for notifications */
+}
+
+.notification-item h3 {
+    margin: 0; /* Remove default margin */
+    font-size: 1.2rem; /* Title size */
+}
+
+.notification-date {
+    font-size: 0.9rem; /* Smaller font for date */
+    color: #999; /* Gray color for date */
+    display: block; /* Block level to separate date from title */
+    margin-bottom: 10px; /* Space below date */
+}

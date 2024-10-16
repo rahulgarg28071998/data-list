@@ -1,0 +1,187 @@
+/* SearchSidebar.css */
+.sidebar-container {
+    display: flex;
+    height: 100vh; /* Full height */
+    background-color: #f8f9fa; /* Background for the white section */
+}
+
+.sidebar {
+    width: 80px;
+    background-color: #333; /* Black background for sidebar */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.menu-icons {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 20px;
+    color: #fff; /* Icon color */
+    font-size: 24px; /* Icon size */
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.menu-item.active,
+.menu-item:hover {
+    background-color: #555; /* Hover and active background color */
+}
+
+.search-filters {
+    width: 300px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add some shadow for depth */
+}
+
+h2, h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.filter-section {
+    margin-bottom: 20px;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.filter-options {
+    margin-top: 10px;
+}
+
+.filter-item {
+    margin-bottom: 10px;
+}
+
+.filter-item label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.filter-item input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.filter-item button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.filter-item button:hover {
+    background-color: #0056b3;
+}
+/* SearchFilter.css */
+.search-filter {
+    width: 320px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.search-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.search-criteria {
+    font-size: 12px;
+    font-weight: 600;
+    color: #999;
+    margin-bottom: 20px;
+}
+
+.filter-section {
+    margin-bottom: 20px;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.filter-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.filter-header span {
+    font-size: 20px;
+    color: #333;
+}
+
+.filter-content {
+    padding-top: 10px;
+}
+
+.filter-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.filter-item span {
+    font-size: 14px;
+    color: #333;
+}
+
+.edit-icon {
+    font-size: 16px;
+    cursor: pointer;
+    color: #999;
+}
+
+.add-icon {
+    font-size: 20px;
+    cursor: pointer;
+    color: #999;
+}
+
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 0;
+}
+
+.tag {
+    background-color: #e0e0e0;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 5px;
+}

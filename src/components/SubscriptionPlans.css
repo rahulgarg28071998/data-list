@@ -1,0 +1,50 @@
+.subscription-container {
+    display: flex;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .current-plan {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e9ecef;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .plan-info h3 {
+    font-size: 20px;
+    margin: 0;
+  }
+  
+  .buy-credits {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .billing-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .billing-toggle {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .plans {
+    display: flex;
+    gap: 20px;
+  }
+  

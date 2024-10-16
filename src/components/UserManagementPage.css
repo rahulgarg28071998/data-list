@@ -1,0 +1,55 @@
+/* UserManagementPage.css */
+.user-management-page {
+    padding: 20px;
+    background-color: #ffffff; /* Main content background */
+    margin-top: 20px; /* Space below the header */
+}
+
+.user-management-page h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px; /* Space below title */
+}
+
+.user-form {
+    margin-bottom: 20px; /* Space below the form */
+}
+
+.user-form input, .user-form select {
+    padding: 10px;
+    margin-right: 10px; /* Space between inputs */
+    border: 1px solid #ddd; /* Input border */
+    border-radius: 4px; /* Rounded corners */
+}
+
+.user-form button {
+    padding: 10px 15px;
+    background-color: #007bff; /* Button color */
+    color: white; /* Button text color */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer on hover */
+}
+
+.user-form button:hover {
+    background-color: #0056b3; /* Darker button color on hover */
+}
+
+.user-list {
+    max-width: 800px; /* Limit the width of the user list */
+    overflow-x: auto; /* Horizontal scroll if table is too wide */
+}
+
+.user-list table {
+    width: 100%; /* Full width */
+    border-collapse: collapse; /* Remove gaps between cells */
+}
+
+.user-list th, .user-list td {
+    padding: 10px; /* Padding in table cells */
+    border: 1px solid #ddd; /* Border around cells */
+    text-align: left; /* Align text to the left */
+}
+
+.user-list th {
+    background-color: #f2f2f2; /* Header background color */
+}
