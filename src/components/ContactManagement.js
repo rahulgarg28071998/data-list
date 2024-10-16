@@ -1,43 +1,80 @@
-import React from 'react';
-import { useTable } from 'react-table';
+import React, { useEffect, useState } from 'react';
+import { useTable, useSortBy, useFilters, useGlobalFilter } from 'react-table';
 import './ContactManagement.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faTwitter, faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
-const ContactManagement = () => {
-  const data = React.useMemo(
-    () => [
-      { id: '01101', name: 'Chris...', company: 'Grey Fade', address: 'Shell Link...', email: '...', phone: '(702) 555-0102', position: 'CEO', social: [faLinkedin, faTwitter, faFacebook, faInstagram] },
-      { id: '01101', name: 'Chris...', company: 'Grey Fade', address: 'Shell Link...', email: '...', phone: '(702) 555-0102', position: 'CEO', social: [faLinkedin, faTwitter, faFacebook, faInstagram] },
-      { id: '01101', name: 'Chris...', company: 'Grey Fade', address: 'Shell Link...', email: '...', phone: '(702) 555-0102', position: 'CEO', social: [faLinkedin, faTwitter, faFacebook, faInstagram] },
-      { id: '01101', name: 'Chris...', company: 'Grey Fade', address: 'Shell Link...', email: '...', phone: '(702) 555-0102', position: 'CEO', social: [faLinkedin, faTwitter, faFacebook, faInstagram] },
-      { id: '01101', name: 'Chris...', company: 'Grey Fade', address: 'Shell Link...', email: '...', phone: '(702) 555-0102', position: 'CEO', social: [faLinkedin, faTwitter, faFacebook, faInstagram] },
-      { id: '01101', name: 'Chris...', company: 'Grey Fade', address: 'Shell Link...', email: '...', phone: '(702) 555-0102', position: 'CEO', social: [faLinkedin, faTwitter, faFacebook, faInstagram] },
-      { id: '01101', name: 'Chris...', company: 'Grey Fade', address: 'Shell Link...', email: '...', phone: '(702) 555-0102', position: 'CEO', social: [faLinkedin, faTwitter, faFacebook, faInstagram] },
-      // Add more data rows here...
-    ],
-    []
+// Default filter UI
+function DefaultColumnFilter({
+  column: { filterValue, setFilter, Header },
+}) {
+  return (
+    <input
+      value={filterValue || ''}
+      onChange={e => setFilter(e.target.value || undefined)}
+      placeholder={`Search ${Header}...`}
+    />
   );
+}
+
+// Global filter UI
+function GlobalFilter({
+  preGlobalFilteredRows,
+  globalFilter,
+  setGlobalFilter,
+}) {
+  const count = preGlobalFilteredRows.length
+
+  return (
+    <input
+      value={globalFilter || ""}
+      onChange={e => {
+        setGlobalFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+      }}
+      placeholder={`Search all ${count} records...`}
+    />
+  )
+}
+
+const ContactManagement = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('generated.json')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setData(data);
+      });
+  }, []);
 
   const columns = React.useMemo(
     () => [
       { Header: 'ID', accessor: 'id' },
-      { Header: 'Name', accessor: 'name' },
-      { Header: 'Company Name', accessor: 'company' },
-      { Header: 'Address', accessor: 'address' },
-      { Header: 'Primary Email', accessor: 'email' },
-      { Header: 'Mobile Phone', accessor: 'phone' },
-      { Header: 'Position', accessor: 'position' },
+      { Header: 'Name', accessor: 'first_name' },
+      { Header: 'Company Name', accessor: 'organisation_name' },
+      { Header: 'Address', accessor: 'contact_address_1' },
+      { Header: 'Primary Email', accessor: 'email_work' },
+      { Header: 'Mobile Phone', accessor: 'direct_phone' },
+      { Header: 'Position', accessor: 'job_name' },
       {
-        Header: 'Social Media', accessor: 'social', Cell: ({ cell: { value } }) => (
+        Header: 'Social Media', accessor: 'social', disableSortBy: true, disableFilters: true, Cell: () => (
           <div>
-            {value.map((icon, index) => (
-              <FontAwesomeIcon key={index} icon={icon} className="social-icon" />
-            ))}
+            <FontAwesomeIcon icon={faLinkedin} className="social-icon" />
+            <FontAwesomeIcon icon={faTwitter} className="social-icon" />
+            <FontAwesomeIcon icon={faFacebook} className="social-icon" />
+            <FontAwesomeIcon icon={faInstagram} className="social-icon" />
           </div>
         )
       }
     ],
+    []
+  );
+
+  const defaultColumn = React.useMemo(
+    () => ({
+      Filter: DefaultColumnFilter,
+    }),
     []
   );
 
@@ -47,7 +84,10 @@ const ContactManagement = () => {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data });
+    state,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+  } = useTable({ columns, data, defaultColumn }, useFilters, useGlobalFilter, useSortBy);
 
   return (
     <div className="contact-management">
@@ -68,6 +108,11 @@ const ContactManagement = () => {
       <div className="filters">
         <div className="selected-contacts">15 Contacts Selected</div>
         <button>Select All 523</button>
+        <GlobalFilter
+          preGlobalFilteredRows={preGlobalFilteredRows}
+          globalFilter={state.globalFilter}
+          setGlobalFilter={setGlobalFilter}
+        />
       </div>
 
       <table {...getTableProps()} className="contacts-table">
@@ -75,7 +120,17 @@ const ContactManagement = () => {
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render('Header')}
+                  <span>
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? ' 🔽'
+                        : ' 🔼'
+                      : ''}
+                  </span>
+                  <div>{column.canFilter ? column.render('Filter') : null}</div>
+                </th>
               ))}
             </tr>
           ))}
