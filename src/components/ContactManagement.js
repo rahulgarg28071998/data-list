@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useTable, useSortBy, useFilters, useGlobalFilter } from 'react-table';
+import { useTable, useSortBy, useFilters, useGlobalFilter, usePagination } from 'react-table';
 import './ContactManagement.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faTwitter, faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
@@ -82,12 +82,26 @@ const ContactManagement = () => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
+    page,
     prepareRow,
     state,
     preGlobalFilteredRows,
     setGlobalFilter,
-  } = useTable({ columns, data, defaultColumn }, useFilters, useGlobalFilter, useSortBy);
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    pageOptions,
+    gotoPage,
+    pageCount,
+    setPageSize,
+  } = useTable(
+    { columns, data, defaultColumn, initialState: { pageIndex: 0 } },
+    useFilters,
+    useGlobalFilter,
+    useSortBy,
+    usePagination
+  );
 
   return (
     <div className="contact-management">
@@ -136,7 +150,7 @@ const ContactManagement = () => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map(row => {
+          {page.map(row => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
@@ -148,6 +162,51 @@ const ContactManagement = () => {
           })}
         </tbody>
       </table>
+
+      <div className="pagination">
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {'<<'}
+        </button>
+        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          {'<'}
+        </button>
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          {'>'}
+        </button>
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {'>>'}
+        </button>
+        <span>
+          Page{' '}
+          <strong>
+            {state.pageIndex + 1} of {pageOptions.length}
+          </strong>{' '}
+        </span>
+        <span>
+          | Go to page:{' '}
+          <input
+            type="number"
+            defaultValue={state.pageIndex + 1}
+            onChange={e => {
+              const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
+              gotoPage(pageNumber);
+            }}
+            style={{ width: '100px' }}
+          />
+        </span>
+        <select
+          value={state.pageSize}
+          onChange={e => {
+            setPageSize(Number(e.target.value));
+          }}
+        >
+          {[10, 20, 30, 40, 50].map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 };
